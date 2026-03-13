@@ -141,4 +141,33 @@ document.addEventListener('DOMContentLoaded', () => {
     style.innerHTML = '@keyframes spin { 100% { transform: rotate(360deg); } }';
     document.head.appendChild(style);
   }
+
+  // 5. Feedback Form Submission
+  const feedbackForm = document.getElementById('feedbackForm');
+  if (feedbackForm) {
+    feedbackForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const submitBtn = feedbackForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerText;
+
+      // Loading state
+      submitBtn.innerHTML = '<span style="display:inline-block; animation: spin 1s linear infinite;">↻</span> Sending...';
+      submitBtn.style.opacity = '0.8';
+      submitBtn.style.pointerEvents = 'none';
+
+      // Simulate API logic
+      setTimeout(() => {
+        submitBtn.innerText = 'Feedback Sent, Thank You!';
+        submitBtn.style.backgroundColor = '#10B981'; // Green success
+        feedbackForm.reset();
+
+        setTimeout(() => {
+          submitBtn.innerText = originalText;
+          submitBtn.style.backgroundColor = '';
+          submitBtn.style.opacity = '1';
+          submitBtn.style.pointerEvents = 'auto';
+        }, 3000);
+      }, 1000);
+    });
+  }
 });
