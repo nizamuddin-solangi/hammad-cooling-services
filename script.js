@@ -106,38 +106,56 @@ document.addEventListener('DOMContentLoaded', () => {
     revealElements.forEach(el => el.classList.add('active'));
   }
 
-  // 4. Booking Form Submission Simulation
+  // 4. EmailJS Initialization & Booking Form
+  (function() {
+    // Replace with your actual EmailJS Public Key
+    emailjs.init("YOUR_PUBLIC_KEY");
+  })();
+
   const bookingForm = document.getElementById('bookingForm');
-  const submitBtn = document.getElementById('submitBtn');
-
-  if (bookingForm && submitBtn) {
-    bookingForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
+  if (bookingForm) {
+    bookingForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
       const originalText = submitBtn.innerText;
-
+      
       // Loading state
-      submitBtn.innerHTML = '<span style="display:inline-block; animation: spin 1s linear infinite;">↻</span> Processing...';
-      submitBtn.style.opacity = '0.8';
-      submitBtn.style.pointerEvents = 'none';
+      submitBtn.innerHTML = '<span style="display:inline-block; animation: spin 1s linear infinite;">↻</span> Sending...';
+      submitBtn.disabled = true;
 
-      // Simulate API logic
-      setTimeout(() => {
-        submitBtn.innerText = 'Request Sent!';
-        submitBtn.style.backgroundColor = '#10B981'; // Green success
-        bookingForm.reset();
+      // Prepare template parameters
+      const templateParams = {
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        service: document.getElementById('service').value,
+        address: document.getElementById('address').value,
+        date: document.getElementById('date').value,
+        time: document.getElementById('time').value,
+        message: document.getElementById('message').value
+      };
 
-        setTimeout(() => {
+      // Send via EmailJS
+      // Replace YOUR_SERVICE_ID and YOUR_TEMPLATE_ID with your actual IDs
+      emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+        .then(function() {
+          alert("✅ Your booking request has been sent successfully. Our technician will contact you soon.");
+          bookingForm.reset();
+        }, function(error) {
+          alert("❌ Failed to send booking request. Please try again.");
+          console.log('FAILED...', error);
+        })
+        .finally(function() {
           submitBtn.innerText = originalText;
-          submitBtn.style.backgroundColor = '';
-          submitBtn.style.opacity = '1';
-          submitBtn.style.pointerEvents = 'auto';
-        }, 3000);
-      }, 1000);
+          submitBtn.disabled = false;
+        });
     });
+  }
 
-    // Add spinner keyframes dynamically
+  // Animation Helper for Loading Spinner (if not already present)
+  if (!document.getElementById('form-spin-style')) {
     const style = document.createElement('style');
+    style.id = 'form-spin-style';
     style.innerHTML = '@keyframes spin { 100% { transform: rotate(360deg); } }';
     document.head.appendChild(style);
   }
