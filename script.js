@@ -109,7 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. EmailJS Initialization & Booking Form
   (function() {
     // Replace with your actual EmailJS Public Key
-    emailjs.init("YOUR_PUBLIC_KEY");
+    emailjs.init({
+      publicKey: "SJYzCD-ZeIoNKuWTo",
+    });
   })();
 
   const bookingForm = document.getElementById('bookingForm');
@@ -137,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Send via EmailJS
       // Replace YOUR_SERVICE_ID and YOUR_TEMPLATE_ID with your actual IDs
-      emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+      emailjs.send('service_fa49917', 'template_enakqmn', templateParams)
         .then(function() {
           alert("✅ Your booking request has been sent successfully. Our technician will contact you soon.");
           bookingForm.reset();
