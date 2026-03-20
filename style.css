@@ -562,6 +562,7 @@ h1, h2, h3, h4, h5 {
 }
 .float-btn:hover { transform: scale(1.1) translateY(-5px); }
 .float-whatsapp { background: #000000; color: white; border: 1px solid rgba(255,255,255,0.2); }
+.float-facebook { background: #1877F2; color: white; }
 .float-call { background: var(--blue-primary); color: white; }
 .float-btn svg { width: 28px; height: 28px; }
 
